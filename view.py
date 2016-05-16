@@ -11,10 +11,9 @@ import time
 from app import app
 from tools import *
 
-help = "智程 v0.1 命令详解：\n天气：获取当前德阳的天气。\n帮助：命令详细列表"
+help = "智程 v0.1 命令详解：\n\n天气：获取当前德阳的天气。\n帮助：命令详细列表"
 subscribe = '欢迎使用 智程 v0.1 \n详细用法请直接回复  帮助'
 reply = "<xml><ToUserName><![CDATA[%s]]></ToUserName><FromUserName><![CDATA[%s]]></FromUserName><CreateTime>%s</CreateTime><MsgType><![CDATA[text]]></MsgType><Content><![CDATA[%s]]></Content><FuncFlag>0</FuncFlag></xml>"
-
 app.config.from_object('config')
 
 @app.route('/',methods=['GET','POST'])
@@ -27,7 +26,6 @@ def wechat_auth():
         timestamp = query.get('timestamp','')
         nonce = query.get('nonce','')
         echostr = query.get('echostr','')
-
         s = [timestamp,nonce,token]
         s.sort()
         s = ''.join(s)
@@ -54,6 +52,8 @@ def wechat_auth():
     response = make_response(reply %(FromUserName,ToUserName,str(int(time.time())),Content))
     response.content_type = 'application/xml'
     return response
+
+
 def tool(name):
 
     if name is None:
@@ -61,7 +61,7 @@ def tool(name):
     zc = Zhicheng()
     if name == u'天气':
         return  zc.tianqi('deyang')
-    elif name == '公交':
+    elif name == u'公交':#bus-24
         return zc.get_bus()
     elif name == u'帮助':
         return help
