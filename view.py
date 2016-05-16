@@ -61,11 +61,17 @@ def tool(name):
     zc = Zhicheng()
     if name == u'天气':
         return  zc.tianqi('deyang')
+    elif name == '公交':
+        return zc.get_bus()
     elif name == u'帮助':
         return help
+
+
+
 @app.route('/index')
 def index():
     return 'Hello!'
-
-
+@app.route('/bus')
+def bus_search():
+    pass
 
